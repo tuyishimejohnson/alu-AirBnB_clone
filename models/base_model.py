@@ -1,17 +1,49 @@
+#!usr/bin/python3
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-  <head>
-    <title>503 first byte timeout</title>
-  </head>
-  <body>
-    <h1>Error 503 first byte timeout</h1>
-    <p>first byte timeout</p>
-    <h3>Error 54113</h3>
-    <p>Details: cache-par-lfpg1960050-PAR 1693906084 2498411324</p>
-    <hr>
-    <p>Varnish cache server</p>
-  </body>
-</html>
+"""
+the base model for the Airbnb clone project
+"""
+
+from uuid import uuid4
+from datetime import datetime
+import models
+
+
+class BaseModel:
+    """
+    The base class for all classes
+    """
+    def __init__(self, *args, **kwargs):
+        """new instance"""
+        if kwargs.__len__() > 0:
+            for k, v in kwargs.items():
+                if k == 'created_at' or k == 'updated_at':
+                    v = datetime.fromisoformat(v)
+                    setattr(self, k, v)
+                    continue
+                if k != '__class__':
+                    setattr(self, k, v)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
+            models.storage.new(self)
+
+    def __str__(self):
+        """ readable format """
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+
+    def save(self):
+        """
+        return a new value of updated_at
+        """
+        self.updated_at = datetime.now()
+        models.storage.save()
+
+    def to_dict(self):
+        """return dictionary"""
+        new_dict = self.__dict__.copy()
+        new_dict['__class__'] = self.__class__.__name__
+        new_dict['updated_at'] = new_dict['updated_at'].isoformat()
+        new_dict['created_at'] = new_dict['created_at'].isoformat()
+        return new_dict
