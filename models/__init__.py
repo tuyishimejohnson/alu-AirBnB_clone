@@ -1,17 +1,7 @@
+#!/usr/bin/python3
+"""__init__ magic method for models directory"""
+from models.engine.file_storage import FileStorage
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-  <head>
-    <title>503 first byte timeout</title>
-  </head>
-  <body>
-    <h1>Error 503 first byte timeout</h1>
-    <p>first byte timeout</p>
-    <h3>Error 54113</h3>
-    <p>Details: cache-par-lfpg1960044-PAR 1693906078 1882709722</p>
-    <hr>
-    <p>Varnish cache server</p>
-  </body>
-</html>
+
+storage = FileStorage()
+storage.reload()
