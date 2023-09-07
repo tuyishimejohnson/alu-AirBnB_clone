@@ -155,7 +155,7 @@ class HBNBCommand(cmd.Cmd):
         and id and save changes in Json file
         """
         args = arg.split(' ')
-        if len(arg) <1:
+        if len(arg) < 1:
             print("** class name missing **")
             return
         elif args[0] not in classes:
