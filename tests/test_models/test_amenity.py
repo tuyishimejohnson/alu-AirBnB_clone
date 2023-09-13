@@ -1,34 +1,38 @@
-0. Minimum Operations
-mandatory
-In a text file, there is a single character H. Your text editor can execute only two operations in this file: Copy All and Paste. Given a number n, write a method that calculates the fewest number of operations needed to result in exactly n H characters in the file.
-
-Prototype: def minOperations(n)
-Returns an integer
-If n is impossible to achieve, return 0
-Example:
-
-n = 9
-
-H => Copy All => Paste => HH => Paste =>HHH => Copy All => Paste => HHHHHH => Paste => HHHHHHHHH
-
-Number of operations: 6
-
-carrie@ubuntu:~/minoperations$ cat 0-main.py
 #!/usr/bin/python3
-"""
-Main file for testing
-"""
+"""test Amenity"""
+import unittest
+# import pep8
+# import models
+# import amenity
+from models.amenity import Amenity
+from models import storage
 
-minOperations = __import__('0-minoperations').minOperations
 
-n = 4
-print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))
+class Amenity_testing(unittest.TestCase):
+    """Test Amenity class"""
 
-n = 12
-print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))
+    def setUp(self):
+        """Return to "" class attributes"""
+        with open("test.json", 'w'):
+            storage._FileStorage__file_path = "test.json"
+            storage._FileStorage__objects = {}
+        Amenity.name = ""
+   
+    # def testpep8(self):
+    #     """testing codestyle"""
+    #     pepstylecode = pep8.StyleGuide(quiet=True)
+    #     path_user = 'models/amenity.py'
+    #     result = pepstylecode.check_files([path_user])
+        
+    def test_instance(self):
+        """test instance."""
+        amenity = Amenity()
+        self.assertIsInstance(amenity, Amenity)
 
-carrie@ubuntu:~/minoperations$
-carrie@ubuntu:~/minoperations$ ./0-main.py
-Min number of operations to reach 4 characters: 4
-Min number of operations to reach 12 characters: 7
-carrie@ubuntu:~/minoperations$
+    def test_field_types(self):
+        """ Test field attributes of user """
+        my_Amenity = Amenity()
+        self.assertTrue(type(my_Amenity.name) == str)
+
+if __name__ == '__main__':
+    unittest.main()
